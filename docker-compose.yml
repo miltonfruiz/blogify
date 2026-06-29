@@ -1,0 +1,30 @@
+```yml
+version: "3"
+
+services:
+  backend:
+    container_name: blogify-backend
+    build: ./backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    environment:
+      - DATABASE_URL=mongodb://mongo:27017/blogify
+
+  frontend:
+    container_name: blogify-frontend
+    build: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+  mongo:
+    container_name: blogify-mongo
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-data:/data/db
+```
